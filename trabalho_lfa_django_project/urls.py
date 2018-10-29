@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-
+from trabalho_lfa_django_app import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^verify_mt/', views.verify_mt),
 ]
