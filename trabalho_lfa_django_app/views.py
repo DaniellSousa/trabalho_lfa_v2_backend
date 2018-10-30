@@ -116,7 +116,7 @@ def verify_mt(request):
         estadoInicial = request.data.get("estadoInicial")
         estadosFinais = request.data.get("estadosFinais")
         palavraTeste = request.data.get("palavraTeste")
-        funcoes = request.data.get("funcos")
+        funcoes = request.data.get("funcoes")
 
         saida = 0
 
@@ -139,7 +139,11 @@ def verify_mt(request):
         print (listaSimbolosEntrada)
         print (listaSimbolosCompleto)
         print (listaEstadosFinais)
-        print (listaTransicaoFuncoes)
+
+        for tf in listaTransicaoFuncoes:
+            print ("" + str(tf.comando.comando) + "-" + str(tf.acao.acao))
+
+        # print (listaTransicaoFuncoes)
 
         return Response({"status": 200, "saida": saida})
     except Exception, e:
