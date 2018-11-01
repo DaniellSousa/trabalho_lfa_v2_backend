@@ -109,6 +109,17 @@ def getOrganizeFuncoes(funcoes): #q0,$-q0,$,R;
     return lista
 
 
+def notIsFinalState(q, estados):
+    verify = False
+
+    for qe in estados:
+        if qe == q:
+            verify = True
+            break
+
+    return verify
+
+
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def verify_mt(request):
@@ -166,6 +177,8 @@ def verify_mt(request):
 
             # verificar se é o último item, se ainda está válido e se NÃO é estado final para setar palavraTesteInvalida para True
 
+            if (i == len(str(palavraTeste))) and (palavraTesteInvalida == False) and notIsFinalState(funcao.comando[0], estadosFinais):
+                palavraTesteInvalida = True
 
         if palavraTesteInvalida:
             saida = 0
