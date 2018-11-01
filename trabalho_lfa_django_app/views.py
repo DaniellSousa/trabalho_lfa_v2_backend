@@ -67,6 +67,9 @@ def getOrganizeFuncoes(funcoes): #q0,$-q0,$,R;
 
     for f in funcoes:
 
+        if f == "\n":
+            return
+
         if not jaPegouComando:
 
             if f == "-":
@@ -144,6 +147,30 @@ def verify_mt(request):
             print ("" + str(tf.comando.comando) + "-" + str(tf.acao.acao))
 
         # print (listaTransicaoFuncoes)
+
+        # Percorrer as funções de transição e ver se as ligações combinam, e para cada combinação feita, verificar
+        #  se o que é escrito na função atual é igual ao item atual da palavra teste sendo percorrida paralelamente
+
+        palavraTesteInvalida = False
+
+        i = 0
+        for funcao in listaTransicaoFuncoes:
+            if funcao.comando[2] == "$":
+                continue
+
+            if funcao.comando[2] != palavraTeste[i]:
+                palavraTesteInvalida = True
+                break
+
+            i += 1
+
+            # verificar se é o último item, se ainda está válido e se NÃO é estado final para setar palavraTesteInvalida para True
+
+
+        if palavraTesteInvalida:
+            saida = 0
+        else:
+            saida = 1
 
         return Response({"status": 200, "saida": saida})
     except Exception, e:
