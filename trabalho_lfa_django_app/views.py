@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -124,13 +125,13 @@ def notIsFinalState(q, estados):
 @permission_classes([AllowAny])
 def verify_mt(request):
     try:
-        estados = request.data.get("estados")
-        simbolosEntrada = request.data.get("simbolosEntrada")
-        simbolosCompleto = request.data.get("simbolosCompleto")
-        estadoInicial = request.data.get("estadoInicial")
-        estadosFinais = request.data.get("estadosFinais")
-        palavraTeste = request.data.get("palavraTeste")
-        funcoes = request.data.get("funcoes")
+        estados = str(request.data.get("estados"))
+        simbolosEntrada = str(request.data.get("simbolosEntrada"))
+        simbolosCompleto = str(request.data.get("simbolosCompleto"))
+        estadoInicial = str(request.data.get("estadoInicial"))
+        estadosFinais = str(request.data.get("estadosFinais"))
+        palavraTeste = str(request.data.get("palavraTeste"))
+        funcoes = str(request.data.get("funcoes"))
 
         saida = 0
 
@@ -166,10 +167,10 @@ def verify_mt(request):
 
         i = 0
         for funcao in listaTransicaoFuncoes:
-            if funcao.comando[2] == "$":
+            if funcao.comando.comando[2] == "$":
                 continue
 
-            if funcao.comando[2] != palavraTeste[i]:
+            if funcao.comando.comando[2] != palavraTeste[i]:
                 palavraTesteInvalida = True
                 break
 
@@ -177,7 +178,7 @@ def verify_mt(request):
 
             # verificar se é o último item, se ainda está válido e se NÃO é estado final para setar palavraTesteInvalida para True
 
-            if (i == len(str(palavraTeste))) and (palavraTesteInvalida == False) and notIsFinalState(funcao.comando[0], estadosFinais):
+            if (i == len(str(palavraTeste))) and (palavraTesteInvalida == False) and notIsFinalState(funcao.comando.comando[0], estadosFinais):
                 palavraTesteInvalida = True
 
         if palavraTesteInvalida:
